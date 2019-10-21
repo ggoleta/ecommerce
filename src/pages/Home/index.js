@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { ProductList } from './style';
 import { formatPrice } from '../../util/format';
@@ -23,6 +24,15 @@ class Home extends Component {
 
   componentDidUpdate() {}
 
+  handleAddProduct = product => {
+    //this.props.dispatch
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'ADD_TO_CART',
+      product,
+    })
+  }
+
   render() {
     const { products } = this.state;
     return (
@@ -32,7 +42,7 @@ class Home extends Component {
             <img src={product.image} alt={product.title} />
             <strong>{product.title}</strong>
             <span>{product.priceFormatted}</span>
-            <button type="button">
+            <button type="button" onClick={()=>this.handleAddProduct(product)}>
               <div>
                 <MdAddShoppingCart size={16} color="#fff" />
               </div>
@@ -45,4 +55,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default connect()(Home);
